@@ -21,7 +21,9 @@ RUN apk add --no-cache \
         g++ \
         exiftool \
         git \
-        su-exec
+        su-exec \
+        libxslt-dev \
+        libgcrypt-dev
 
 RUN pecl install apcu-${APCU_VERSION} \
     && docker-php-ext-enable apcu \
@@ -40,7 +42,8 @@ RUN docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install intl \
     && docker-php-ext-install iconv \
     && docker-php-ext-install exif \
-    && docker-php-ext-install opcache
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install xsl
 
 #Install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
