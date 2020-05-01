@@ -1,10 +1,10 @@
 FROM node:13-alpine
 
-RUN addgroup -g 82 www-data
-RUN adduser -u 82 -D -S -G www-data www-data
+RUN yarn global add pm2
 
-RUN apk --no-cache update
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-RUN apk add --no-cache git make g++ libpng-dev jpeg-dev libjpeg jpeg su-exec
+ENTRYPOINT ["docker-entrypoint.sh"]
 
-RUN rm -fr /var/cache/apk/*
+CMD ["start", "nuxt"]
