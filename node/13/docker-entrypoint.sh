@@ -10,7 +10,6 @@ if [ "$1" = 'start' ]; then
   fi
 elif [ "$1" = 'restart' ]; then
     pm2 restart ${@:2}
-  fi
 else
   exec "$@"
 fi
