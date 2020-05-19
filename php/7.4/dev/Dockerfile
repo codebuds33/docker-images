@@ -1,4 +1,4 @@
-FROM codebuds/php:prod-1.0.1
+FROM codebuds/php:prod-1.0.2
 
 ENV XDEBUG_REMOTE_ENABLE on
 ENV XDEBUG_REMOTE_PORT 9001
@@ -15,6 +15,11 @@ RUN pecl install xdebug \
     && echo "xdebug.remote_autostart=$XDEBUG_REMOTE_AUTOSTART" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.idekey=$XDEBUG_IDEKEY" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && docker-php-ext-enable xdebug
+
+#Set opcache config for dev
+RUN grep -q '^opcache.validate_timestamps=0' /usr/local/etc/php/conf.d/opcache.ini \
+    && sed -i 's/^opcache.validate_timestamps=0/opcache.validate_timestamps=1/' /usr/local/etc/php/conf.d/opcache.ini \
+    || echo 'opcache.validate_timestamps=1' >> /usr/local/etc/php/conf.d/opcache.ini
 
 WORKDIR /var/www/symfony
 
