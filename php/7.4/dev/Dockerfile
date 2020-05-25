@@ -6,6 +6,9 @@ ENV XDEBUG_REMOTE_AUTOSTART off
 ENV XDEBUG_MAX_NESTING_LEVEL 9999
 ENV XDEBUG_IDEKEY PHPSTORM
 
+RUN addgroup -g 1000 exploit
+RUN adduser -u 1000 -D -S -G exploit exploit
+
 #Install Xdebug
 RUN pecl install xdebug \
     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
