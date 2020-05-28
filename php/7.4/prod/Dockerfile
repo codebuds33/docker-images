@@ -6,6 +6,9 @@ ENV MCRYPT_VERSION 1.0.3
 COPY my-config.ini /usr/local/etc/php/conf.d/.
 COPY opcache.ini /usr/local/etc/php/conf.d/.
 
+RUN addgroup -g 1000 exploit
+RUN adduser -u 1000 -D -S -G exploit exploit
+
 RUN apk --no-cache update \
     && apk --no-cache upgrade
 
