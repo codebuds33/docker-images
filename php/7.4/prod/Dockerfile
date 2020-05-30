@@ -9,6 +9,9 @@ COPY opcache.ini /usr/local/etc/php/conf.d/.
 RUN addgroup -g 1000 exploit
 RUN adduser -u 1000 -D -S -G exploit exploit
 
+RUN addgroup -g 1001 exploit2
+RUN adduser -u 1001 -D -S -G exploit2 exploit2
+
 RUN apk --no-cache update \
     && apk --no-cache upgrade
 
