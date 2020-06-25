@@ -30,7 +30,8 @@ RUN apk add --no-cache \
         git \
         su-exec \
         libxslt-dev \
-        libgcrypt-dev
+        libgcrypt-dev \
+        wkhtmltopdf
 
 RUN pecl install apcu-${APCU_VERSION} \
     && docker-php-ext-enable apcu \
