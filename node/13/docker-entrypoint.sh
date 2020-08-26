@@ -2,7 +2,7 @@
 set -e
 
 if [ "$1" = 'start' ]; then
-  if [ "$2" = 'nuxt' ] || [ "$2" = 'strapi' ]; then
+  if [ "$2" = 'nuxt' ] || [ "$2" = 'strapi' ] || [ "$2" = 'sails' ]; then
     pm2 start --no-daemon
   else
     pm2 start ${@:2}
