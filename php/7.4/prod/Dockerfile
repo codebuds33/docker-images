@@ -3,19 +3,17 @@ FROM php:7.4.11-fpm-alpine
 ENV APCU_VERSION 5.1.19
 ENV MCRYPT_VERSION 1.0.3
 ENV COMPOSER_VERSION 2.0.1
-
+ENV TZ Europe/Paris
 
 COPY my-config.ini /usr/local/etc/php/conf.d/.
 COPY opcache.ini /usr/local/etc/php/conf.d/.
 
-RUN addgroup -g 1000 exploit
-RUN adduser -u 1000 -D -S -G exploit exploit
-
-RUN addgroup -g 1001 exploit2
-RUN adduser -u 1001 -D -S -G exploit2 exploit2
-
-RUN apk --no-cache update \
-    && apk --no-cache upgrade
+RUN apk upgrade -U -a \
+    && apk add --no-cache \
+    bash \
+    tzdata \
+    && rm -rf /var/cache/* \
+    && mkdir /var/cache/apk
 
 RUN apk add --no-cache \
         $PHPIZE_DEPS \
