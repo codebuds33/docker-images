@@ -1,17 +1,10 @@
-FROM codebuds/php:prod-1.0.5
+FROM codebuds/php:prod-1.1.0
 
 ENV XDEBUG_REMOTE_ENABLE on
 ENV XDEBUG_REMOTE_PORT 9001
 ENV XDEBUG_REMOTE_AUTOSTART off
 ENV XDEBUG_MAX_NESTING_LEVEL 9999
 ENV XDEBUG_IDEKEY PHPSTORM
-
-#Install bash
-RUN apk upgrade -U -a \
-    && apk add --no-cache \
-    bash \
-    && rm -rf /var/cache/* \
-    && mkdir /var/cache/apk
 
 #Install Xdebug
 RUN pecl install xdebug \
@@ -33,7 +26,6 @@ RUN wget https://get.symfony.com/cli/installer -O - | bash && mv /root/.symfony/
 
 #Set global git
 RUN git config --global user.email "you@example.com" && git config --global user.name "Your Name"
-
 
 WORKDIR /var/www/symfony
 
