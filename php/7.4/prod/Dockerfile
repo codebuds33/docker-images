@@ -1,7 +1,9 @@
-FROM php:7.4.6-fpm-alpine
+FROM php:7.4.11-fpm-alpine
 
-ENV APCU_VERSION 5.1.18
+ENV APCU_VERSION 5.1.19
 ENV MCRYPT_VERSION 1.0.3
+ENV COMPOSER_VERSION 2.0.1
+
 
 COPY my-config.ini /usr/local/etc/php/conf.d/.
 COPY opcache.ini /usr/local/etc/php/conf.d/.
@@ -53,8 +55,10 @@ RUN docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install opcache \
     && docker-php-ext-install xsl
 
-#Install composer
-RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/4d7f8d40f9788de07c7f7b8946f340bf89535453/web/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer
+#Install composer programmatically
+COPY install-composer.sh /install-composer.sh
+RUN chmod +x /install-composer.sh \
+    && /install-composer.sh
 
 #Remove cached files
 RUN docker-php-source delete \
