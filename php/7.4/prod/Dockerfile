@@ -68,6 +68,9 @@ RUN docker-php-source delete \
         /var/lib/apt/lists/* \
         /root/.composer
 
+RUN mkdir /.composer
+RUN chmod 777 /.composer
+
 WORKDIR /var/www/symfony
 
 RUN PATH=$PATH:/usr/src/apps/vendor/bin:bin
