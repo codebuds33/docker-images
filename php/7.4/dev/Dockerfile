@@ -1,4 +1,4 @@
-FROM codebuds/php:prod-1.1.0
+FROM codebuds/php:prod-1.1.1
 
 ENV XDEBUG_REMOTE_ENABLE on
 ENV XDEBUG_REMOTE_PORT 9001
