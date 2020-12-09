@@ -1,8 +1,7 @@
-FROM php:7.4.11-fpm-alpine
+FROM php:7.4.13-fpm-alpine
 
-ENV APCU_VERSION 5.1.19
-ENV MCRYPT_VERSION 1.0.3
-ENV COMPOSER_VERSION 2.0.1
+ARG APCU_VERSION=5.1.19
+ARG COMPOSER_VERSION=2.0.8
 ENV TZ Europe/Paris
 
 COPY my-config.ini /usr/local/etc/php/conf.d/.
@@ -34,9 +33,7 @@ RUN apk add --no-cache \
         wkhtmltopdf
 
 RUN pecl install apcu-${APCU_VERSION} \
-    && docker-php-ext-enable apcu \
-    && pecl install mcrypt-${MCRYPT_VERSION} \
-    && docker-php-ext-enable mcrypt
+    && docker-php-ext-enable apcu
     
 #Configure, install and enable all php packages
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ --with-webp=/usr/include/ \
@@ -68,8 +65,7 @@ RUN docker-php-source delete \
         /var/lib/apt/lists/* \
         /root/.composer
 
-RUN mkdir /.composer
-RUN chmod 777 /.composer
+RUN mkdir /.composer && chmod 777 /.composer
 
 WORKDIR /var/www/symfony
 
