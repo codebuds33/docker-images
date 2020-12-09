@@ -1,25 +1,19 @@
-FROM codebuds/php:prod-1.1.1
+FROM codebuds/php:prod-1.1.3
 
-ENV XDEBUG_REMOTE_ENABLE on
-ENV XDEBUG_REMOTE_PORT 9001
-ENV XDEBUG_REMOTE_AUTOSTART off
-ENV XDEBUG_MAX_NESTING_LEVEL 9999
-ENV XDEBUG_IDEKEY PHPSTORM
-
-#Install bash
-RUN apk upgrade -U -a \
-    && apk add --no-cache \
-    bash \
-    && rm -rf /var/cache/* \
-    && mkdir /var/cache/apk
+ENV XDEBUG_START_WITH_REQUEST=0 \
+    XDEBUG_MAX_NESTING_LEVEL=9999 \
+    XDEBUG_CLIENT_PORT=9003 \
+    XDEBUG_IDEKEY=PHPSTORM \
+    XDEBUG_MODE=debug \
+    XDEBUG_VERSION=3.0.0
 
 #Install Xdebug
 RUN pecl install xdebug \
     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=$XDEBUG_REMOTE_ENABLE" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_port=$XDEBUG_REMOTE_PORT" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.mode=$XDEBUG_MODE" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.client_port=$XDEBUG_CLIENT_PORT" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.max_nesting_level=$XDEBUG_MAX_NESTING_LEVEL" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=$XDEBUG_REMOTE_AUTOSTART" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.start_with_request=$XDEBUG_START_WITH_REQUEST" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.idekey=$XDEBUG_IDEKEY" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && docker-php-ext-enable xdebug
 
